@@ -22,50 +22,54 @@ export default class GotService {
     return this._transformCharacter(character)
   }
 
-  getAllHouses = () => {
-    return this.getResource(`/houses/`)
+  getAllHouses = async () => {
+    const houses = await this.getResource(`/houses/`)
+    return houses.map(this._transformHouse)
   }
 
-  getHouse = (id) => {
-    return this.getResource(`/houses/${id}/`)
+  getHouse = async (id) => {
+    const house = await this.getResource(`/houses/${id}/`)
+    return this._transformHouse(house)
   }
 
-  getAllBooks = () => {
-    return this.getResource(`/books/`)
+  getAllBooks = async () => {
+    const books = await this.getResource(`/books/`)
+    return books.map(this._transformBooks)
   }
 
-  getBook = (id) => {
-    return this.getResource(`/books/${id}/`)
+  getBook = async (id) => {
+    const book = await this.getResource(`/books/${id}/`)
+    return this._transformBook(book)
   }
 
   _transformCharacter(char) {
     return {
-      name: char.name,
-      gender: char.gender,
-      born: char.born,
-      died: char.died,
-      culture: char.culture
+      name: char.name || 'no data',
+      gender: char.gender || 'no data',
+      born: char.born || 'no data',
+      died: char.died || 'no data',
+      culture: char.culture || 'no data'
     }
   }
 
   _transformHouse(house) {
     return {
-      name: house.name,
-      region: house.region,
-      words: house.words,
-      titles: house.titles,
-      overlord: house.overlord,
-      ancestralWeapons: house.ancestralWeapons,
+      name: house.name || 'no data',
+      region: house.region || 'no data',
+      words: house.words || 'no data',
+      titles: house.titles || 'no data',
+      overlord: house.overlord || 'no data',
+      ancestralWeapons: house.ancestralWeapons || 'no data',
 
     }
   }
 
   _transformBook(book) {
     return {
-      name: book.name,
-      numberOfPages: book.numberOfPages,
-      publisher: book.publisher,
-      released: book.released
+      name: book.name || 'no data',
+      numberOfPages: book.numberOfPages || 'no data',
+      publisher: book.publisher || 'no data',
+      released: book.released || 'no data'
     }
   }
 
