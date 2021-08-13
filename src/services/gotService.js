@@ -34,7 +34,7 @@ export default class GotService {
 
   getAllBooks = async () => {
     const books = await this.getResource(`/books/`)
-    return books.map(this._transformBooks)
+    return books.map(this._transformBook)
   }
 
   getBook = async (id) => {
@@ -42,34 +42,44 @@ export default class GotService {
     return this._transformBook(book)
   }
 
-  _transformCharacter(char) {
+  isSet = (data, dataName) => {
+    return data ? data : `no ${dataName} found`
+  }
+
+  _extractId = (item) => {
+    const idRegEx = /\/([0-9]*)$/
+    return item.url.match(idRegEx)[1]
+  }
+  
+  _transformCharacter = (char) => {
     return {
-      name: char.name || 'no data',
-      gender: char.gender || 'no data',
-      born: char.born || 'no data',
-      died: char.died || 'no data',
-      culture: char.culture || 'no data'
+      id: this._extractId(char),
+      name: this.isSet(char.name, 'name'),
+      gender: this.isSet(char.gender, 'gender'),
+      born: this.isSet(char.born, 'born'),
+      died: this.isSet(char.died, 'died'),
+      culture: this.isSet(char.culture, 'culture'),
     }
   }
 
-  _transformHouse(house) {
+  _transformHouse = (house) => {
     return {
-      name: house.name || 'no data',
-      region: house.region || 'no data',
-      words: house.words || 'no data',
-      titles: house.titles || 'no data',
-      overlord: house.overlord || 'no data',
-      ancestralWeapons: house.ancestralWeapons || 'no data',
+      name: this.isSet(house.name, 'name'),
+      region: this.isSet(house.region, 'region'),
+      words: this.isSet(house.words, 'words'),
+      titles: this.isSet(house.titles, 'titles'),
+      overlord: this.isSet(house.overlord, 'overlord'),
+      ancestralWeapons: this.isSet(house.ancestralWeapons, 'ancestralWeapons'),
 
     }
   }
 
-  _transformBook(book) {
+  _transformBook = (book) => {
     return {
-      name: book.name || 'no data',
-      numberOfPages: book.numberOfPages || 'no data',
-      publisher: book.publisher || 'no data',
-      released: book.released || 'no data'
+      name: this.isSet(book.name, 'name'),
+      numberOfPages: this.isSet(book.numberOfPages, 'numberOfPages'),
+      publisher: this.isSet(book.publisher, 'publisher'),
+      released: this.isSet(book.released, 'released'),
     }
   }
 
