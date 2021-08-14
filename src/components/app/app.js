@@ -4,10 +4,10 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import Button from 'reactstrap/lib/Button';
 import ErrorMessage from '../errorMessage';
-import CharacterPage from '../characterPage';
-import ItemList from '../itemList'
-import CharDetails from '../charDetails';
 import gotService from '../../services/gotService'
+import CharacterPage from '../pages/characterPage';
+import BookPage from '../pages/bookPage'
+import HousePage from '../pages/housePage';
 
 class App extends Component {
 
@@ -56,30 +56,8 @@ class App extends Component {
                         </Col>
                     </Row>
                     <CharacterPage/>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList 
-                                onItemSelected={this.onItemSelected}
-                                getData={this.gotService.getAllBooks}
-                                renderItem={(item) => item.name}
-                                />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails characterId={this.state.selectedCharacter}/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList 
-                                onItemSelected={this.onItemSelected}
-                                getData={this.gotService.getAllHouses}
-                                renderItem={(item) => item.name}
-                            />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails characterId={this.state.selectedCharacter}/>
-                        </Col>
-                    </Row>
+                    <BookPage/>
+                    <HousePage/>
                 </Container>
             </>
         )

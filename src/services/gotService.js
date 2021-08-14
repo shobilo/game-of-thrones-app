@@ -42,8 +42,11 @@ export default class GotService {
     return this._transformBook(book)
   }
 
-  isSet = (data, dataName) => {
-    return data ? data : `no ${dataName} found`
+  isSet = (data) => {
+    if (Array.isArray(data)) {
+      return (data.length !== 0 && data[0] !== '') ? data : `no data`
+    }
+    return data ? data : `no data`
   }
 
   _extractId = (item) => {
@@ -54,32 +57,33 @@ export default class GotService {
   _transformCharacter = (char) => {
     return {
       id: this._extractId(char),
-      name: this.isSet(char.name, 'name'),
-      gender: this.isSet(char.gender, 'gender'),
-      born: this.isSet(char.born, 'born'),
-      died: this.isSet(char.died, 'died'),
-      culture: this.isSet(char.culture, 'culture'),
+      name: this.isSet(char.name),
+      gender: this.isSet(char.gender),
+      born: this.isSet(char.born),
+      died: this.isSet(char.died),
+      culture: this.isSet(char.culture),
     }
   }
 
   _transformHouse = (house) => {
     return {
-      name: this.isSet(house.name, 'name'),
-      region: this.isSet(house.region, 'region'),
-      words: this.isSet(house.words, 'words'),
-      titles: this.isSet(house.titles, 'titles'),
-      overlord: this.isSet(house.overlord, 'overlord'),
-      ancestralWeapons: this.isSet(house.ancestralWeapons, 'ancestralWeapons'),
-
+      id: this._extractId(house),
+      name: this.isSet(house.name),
+      region: this.isSet(house.region),
+      words: this.isSet(house.words),
+      titles: this.isSet(house.titles),
+      overlord: this.isSet(house.overlord),
+      ancestralWeapons: this.isSet(house.ancestralWeapons)
     }
   }
 
   _transformBook = (book) => {
     return {
-      name: this.isSet(book.name, 'name'),
-      numberOfPages: this.isSet(book.numberOfPages, 'numberOfPages'),
-      publisher: this.isSet(book.publisher, 'publisher'),
-      released: this.isSet(book.released, 'released'),
+      id: this._extractId(book),
+      name: this.isSet(book.name),
+      numberOfPages: this.isSet(book.numberOfPages),
+      publisher: this.isSet(book.publisher),
+      released: this.isSet(book.released),
     }
   }
 
