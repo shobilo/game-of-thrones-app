@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import gotService from '../../services/gotService'
 import Spinner from '../spinner'
 import ErrorMessage from '../errorMessage';
+import PropTypes from 'prop-types'
 
 import './randomChar.css';
 
 export default class RandomChar extends Component {
 
-    randCharTimerId = () => setInterval(this.updateCharacter, 15000)
+    randCharTimerId = () => setInterval(this.updateCharacter, this.props.interval)
     gotService = new gotService();
 
     state = {
@@ -15,6 +16,22 @@ export default class RandomChar extends Component {
         loading: true,
         error: false
     }
+
+    static defaultProps = {
+        interval: 10000
+    }
+
+    static propTypes = {
+        interval: PropTypes.number
+    }
+
+    // static propTypes = {
+    //     interval: (props, propName, componentName) => {
+    //         const value = props[propName]
+    //         if (typeof value === 'number' && !isNaN(value)) { return null }
+    //         return new TypeError(`${componentName}: ${propName} must be a number`)
+    //     }
+    // }
 
     componentDidMount() {
         this.updateCharacter()
@@ -86,3 +103,4 @@ const View = ({char}) => {
         </>
     )
 }
+

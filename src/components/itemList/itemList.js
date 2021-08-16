@@ -1,10 +1,21 @@
 import React, {Component} from 'react';
-import './itemList.css';
+import PropTypes from 'prop-types'
 import Spinner from '../spinner'
+
+import './itemList.css';
+
 export default class ItemList extends Component {
 
     state = {
         itemList: null
+    }
+    
+    static defaultProps = {
+        onItemSelected: () => {}
+    }
+
+    static propTypes = {
+        onItemSelected: PropTypes.func
     }
 
     componentDidMount() {

@@ -40,7 +40,7 @@ class App extends Component {
 
     render() {
         const {showRandomCharacter: characterVision} = this.state
-        const randomCharacterContent = characterVision ? <RandomChar/> : null
+        const randomCharacterContent = characterVision ? <RandomChar interval={15000}/> : null
 
         if (this.state.error) {
             return <ErrorMessage/>
