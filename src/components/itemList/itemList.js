@@ -1,44 +1,30 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types'
 import Spinner from '../spinner'
 
 import './itemList.css';
 
-export default class ItemList extends Component {
+function ItemList(props) {
 
-    state = {
-        itemList: null
-    }
-    
-    static defaultProps = {
-        onItemSelected: () => {}
-    }
+    const [itemList, updateItemList] = useState([])
 
-    static propTypes = {
-        onItemSelected: PropTypes.func
-    }
-
-    componentDidMount() {
-
-        const {getData} = this.props;
-
+    useEffect(() => {
+        const {getData} = props;
         getData()
-            .then((itemList) => {
-                this.setState({
-                    itemList
+            .then((data) => {
+                updateItemList(data)
                 })
-            })
-    }
+    }, [])
 
-    renderItems = (array) => {
+    const renderItems = (array) => {
         return array.map(item => {
             const {id} = item
-            const label = this.props.renderItem(item)
+            const label = props.renderItem(item)
             return (
                 <li
                     key={id}
                     className="list-group-item"
-                    onClick={() => this.props.onItemSelected(item.id)}
+                    onClick={() => props.onItemSelected(item.id)}
                     >
                     {label}
                 </li>
@@ -46,20 +32,27 @@ export default class ItemList extends Component {
         })
     }
 
-    render() {
-
-        const { itemList } = this.state
-
-        if (!itemList) {
-            return <Spinner/>
-        }
-
-        const items = this.renderItems(itemList)
-
-        return (
-            <ul className="item-list list-group">
-                {items}
-            </ul>
-        );
+    if (!itemList) {
+        return <Spinner/>
     }
+
+    const items = renderItems(itemList)
+
+    return (
+        <ul className="item-list list-group">
+            {items}
+        </ul>
+    );
 }
+
+export default ItemList
+
+    
+ItemList.defaultProps = {
+    onItemSelected: () => {}
+}
+
+ItemList.propTypes = {
+    onItemSelected: PropTypes.func
+}
+
